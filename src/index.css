@@ -1,0 +1,205 @@
+/* ═══════════════════════════════════════════════════
+   MAGNIKNOT — Premium White & Rose
+   index.css — Single Source of Truth
+═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-white:      #FFFFFF;
+  --color-snow:       #FAFAFA;
+  --color-ivory:      #FFF9F5;
+  --color-rose-50:    #FFF1F2;
+  --color-rose-100:   #FFE4E6;
+  --color-rose-200:   #FECDD3;
+  --color-rose-300:   #FDA4AF;
+  --color-rose-400:   #FB7185;
+  --color-rose-500:   #F43F5E;
+  --color-rose-600:   #E11D48;
+  --color-rose-700:   #BE123C;
+  --color-rose-gold:  #B76E79;
+  --color-blush:      #FDE8E8;
+  --color-petal:      #FADADD;
+  --color-charcoal:   #2D2D2D;
+  --color-graphite:   #4A4A4A;
+  --color-warm-grey:  #9A9A9A;
+  --color-light-grey: #E5E5E5;
+  --color-off-white:  #F7F7F7;
+  --color-whatsapp:   #25D366;
+
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Cormorant Garamond', serif;
+}
+
+/* ── CSS Variables ── */
+:root {
+  --white:      #FFFFFF;
+  --snow:       #FAFAFA;
+  --ivory:      #FFF9F5;
+  --rose-50:    #FFF1F2;
+  --rose-100:   #FFE4E6;
+  --rose-200:   #FECDD3;
+  --rose-300:   #FDA4AF;
+  --rose-400:   #FB7185;
+  --rose-500:   #F43F5E;
+  --rose-600:   #E11D48;
+  --rose-700:   #BE123C;
+  --rose-gold:  #B76E79;
+  --blush:      #FDE8E8;
+  --petal:      #FADADD;
+  --charcoal:   #2D2D2D;
+  --graphite:   #4A4A4A;
+  --warm-grey:  #9A9A9A;
+  --light-grey: #E5E5E5;
+  --off-white:  #F7F7F7;
+  --whatsapp:   #25D366;
+}
+
+/* ── Body ── */
+body {
+  background-color: var(--white);
+  color: var(--charcoal);
+  font-family: 'Cormorant Garamond', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Smooth scroll & immersive layout ── */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Scrollbar hide utility ── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ═══════════════════════════════════════════════════
+   HERO — Scrolling Words Background
+═══════════════════════════════════════════════════ */
+@keyframes scroll-words {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.hero-scroll-words {
+  animation: scroll-words 25s linear infinite;
+}
+@keyframes scroll-words-reverse {
+  0%   { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+.hero-scroll-words-reverse {
+  animation: scroll-words-reverse 30s linear infinite;
+}
+
+/* ── Elegant shimmer for brand name ── */
+@keyframes shimmer-rose {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--rose-400),
+    var(--rose-gold),
+    var(--rose-300),
+    var(--rose-500),
+    var(--rose-400)
+  );
+  background-size: 400% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-rose 5s ease-in-out infinite;
+}
+
+/* ── Soft card hover ── */
+.card-hover {
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 50px rgba(244, 63, 94, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Skeleton Loading ── */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--snow) 25%,
+    var(--rose-50) 50%,
+    var(--snow) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.6s infinite linear;
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════════════ */
+.font-display  { font-family: 'Playfair Display', serif; }
+.font-body     { font-family: 'Cormorant Garamond', serif; }
+.font-label    { font-family: 'Josefin Sans', sans-serif; }
+.text-display  { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; }
+.text-h1       { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; }
+.text-h2       { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; }
+.text-h3       { font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 600; }
+.text-body-lg  { font-size: 1.25rem; line-height: 1.6; }
+.text-body     { font-size: 1.125rem; line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════
+   DECORATIVE
+═══════════════════════════════════════════════════ */
+.section-heading {
+  padding-left: 1rem;
+  border-left: 3px solid var(--rose-300);
+}
+
+.price-tag {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rose-600);
+  letter-spacing: 0.05em;
+}
+
+.material-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid var(--rose-200);
+  color: var(--warm-grey);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--rose-50);
+}
+
+/* ── Subtle rose divider ── */
+.rose-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose-200), transparent);
+}
+
+/* ── Fade-in on scroll ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
