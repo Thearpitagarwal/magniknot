@@ -4,8 +4,13 @@ const BagContext = createContext();
 
 export function BagProvider({ children }) {
   const [bagItems, setBagItems] = useState(() => {
-    const localData = localStorage.getItem('magniknot_bag');
-    return localData ? JSON.parse(localData) : [];
+    try {
+      const localData = localStorage.getItem('magniknot_bag');
+      return localData ? JSON.parse(localData) : [];
+    } catch (e) {
+      console.error('Failed to parse bag from local storage:', e);
+      return [];
+    }
   });
   
   const [isBagOpen, setIsBagOpen] = useState(false);

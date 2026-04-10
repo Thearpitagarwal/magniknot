@@ -1,15 +1,116 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>MagniKnot</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  
+  <!-- Preload hero first frame for instantaneous perceived performance -->
+  <link rel="preload" as="image" href="/video-split/ezgif-frame-001.webp" />
+
+  <title>MagniKnot</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      background-color: #F9F3EE;
+    }
+
+    #root {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    /* Premium Pre-React Loader */
+    #site-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background-color: #F9F3EE;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+
+    .loader-logo {
+      width: 250px;
+      height: auto;
+    }
+
+    .loader-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 32px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #C85C5C;
+      animation: bounceFade 1.4s infinite ease-in-out both;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0s;
+    }
+
+    @keyframes bounceFade {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+        opacity: 0.3;
+      }
+
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Initial Loader -->
+  <div id="site-loader">
+    <img src="/magniknot_logo.png" alt="MagniKnot Logo" class="loader-logo" style="mix-blend-mode: multiply;" />
+    <div class="loader-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    // Immediately remove loader for admin panel to prevent ANY loading screens
+    if (window.location.pathname.startsWith('/admin')) {
+      var loader = document.getElementById('site-loader');
+      if (loader) loader.remove();
+      document.getElementById('root').style.opacity = '1';
+    }
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

@@ -25,10 +25,16 @@ export const logoutAdmin = async () => {
 };
 
 export const subscribeToAuthChanges = (callback) => {
-  // Fire initially with the current user
-  supabase.auth.getUser().then(({ data: { user } }) => {
-    callback(user);
-  });
+  // Fire initially with the current user safely
+  supabase.auth.getUser()
+    .then((res) => {
+      const user = res?.data?.user || null;
+      callback(user);
+    })
+    .catch((err) => {
+      console.error('Error fetching initial user session:', err);
+      callback(null);
+    });
 
   // Listen to changes
   const { data: { subscription } } = supabase.auth.onAuthStateChange(

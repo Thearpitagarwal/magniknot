@@ -34,6 +34,8 @@ export default function ProductCard({ product, onClick }) {
             <img 
               src={primaryImage} 
               alt={product.name} 
+              loading="lazy"
+              decoding="async"
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                 isHovered && secondaryImage !== primaryImage ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
               } ${isOutOfStock ? 'grayscale' : ''}`}
@@ -42,6 +44,8 @@ export default function ProductCard({ product, onClick }) {
               <img 
                 src={secondaryImage} 
                 alt={`${product.name} Alternate`} 
+                loading="lazy"
+                decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                   isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
                 } ${isOutOfStock ? 'grayscale' : ''}`}
@@ -70,7 +74,7 @@ export default function ProductCard({ product, onClick }) {
           <button 
             onClick={handleAdd}
             disabled={isOutOfStock}
-            className={`w-full py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
+            className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
               isAdded 
                 ? 'bg-green-500 text-white' 
                 : 'bg-white/90 text-rose-500 hover:bg-rose-500 hover:text-white'
@@ -100,11 +104,11 @@ export default function ProductCard({ product, onClick }) {
       </div>
 
       {/* Mobile always-visible Add button */}
-      <div className="lg:hidden px-4 pb-4">
+      <div className="lg:hidden px-4 pb-4 mt-auto">
         <button 
           onClick={handleAdd}
           disabled={isOutOfStock}
-          className={`w-full py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
+          className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
             isAdded 
               ? 'bg-green-500 text-white' 
               : 'bg-rose-50 text-rose-500 border border-rose-200 hover:bg-rose-500 hover:text-white hover:border-rose-500'

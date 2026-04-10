@@ -8,6 +8,14 @@ import { drawerSlide } from '../../utils/animations';
 export default function BagDrawer() {
   const { bagItems, removeFromBag, isBagOpen, setIsBagOpen, clearBag } = useBag();
   const [whatsappNumber, setWhatsappNumber] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     getSettings().then(data => setWhatsappNumber(data?.whatsappNumber || ''));
@@ -55,8 +63,11 @@ export default function BagDrawer() {
 
           {/* Drawer */}
           <motion.div 
-            {...drawerSlide}
-            className="fixed top-0 right-0 h-full w-full max-w-[360px] bg-white z-[100] flex flex-col font-body shadow-[-8px_0_30px_rgba(0,0,0,0.08)]"
+            initial={isMobile ? { y: "100%", x: 0 } : { x: "100%", y: 0 }}
+            animate={{ y: 0, x: 0 }}
+            exit={isMobile ? { y: "100%", x: 0 } : { x: "100%", y: 0 }}
+            transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.6 }}
+            className="fixed bottom-0 md:top-0 right-0 h-[90vh] md:h-full w-full md:max-w-[360px] bg-white z-[100] flex flex-col font-body shadow-[0_-8px_30px_rgba(0,0,0,0.08)] md:shadow-[-8px_0_30px_rgba(0,0,0,0.08)] rounded-t-2xl md:rounded-none"
           >
             
             {/* Header */}

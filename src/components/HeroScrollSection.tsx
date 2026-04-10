@@ -32,7 +32,7 @@ export default function HeroScrollSection() {
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const indexStr = i.toString().padStart(3, '0');
-      const src = `/video-split/ffout${indexStr}.gif`;
+      const src = `/video-split/ezgif-frame-${indexStr}.webp`;
 
       promises.push(
         new Promise((resolve) => {
@@ -162,17 +162,42 @@ export default function HeroScrollSection() {
     return () => cancelAnimationFrame(rafIdRef.current);
   }, [isLoaded, drawFrame]);
 
+  // ── Auto Nudge (Mobile Only) ──
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (window.innerWidth >= 768) return; // Mobile only
+
+    const timer = setTimeout(() => {
+      if (window.scrollY < 50) {
+        window.scrollBy({ top: 90, behavior: 'smooth' });
+        setTimeout(() => {
+          if (window.scrollY < 150) {
+            window.scrollBy({ top: -90, behavior: 'smooth' });
+          }
+        }, 600);
+      }
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
+
+  // Arrow visibility based on scroll
+  const [showArrow, setShowArrow] = useState(true);
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (latest > 0.05 && showArrow) setShowArrow(false);
+    else if (latest <= 0.05 && !showArrow) setShowArrow(true);
+  });
+
   return (
-    <div ref={containerRef} className="relative w-full h-[300vh]" style={{ backgroundColor: '#F9F3EE' }}>
+    <div ref={containerRef} className="relative w-full h-[250vh] md:h-[300vh]" style={{ backgroundColor: '#F9F3EE' }}>
 
-
-      {/* Sticky Canvas */}
-      <div className="sticky top-0 w-full h-screen" style={{ overflow: 'hidden' }}>
+      {/* Sticky Canvas & Content */}
+      <div className="sticky top-0 w-full h-[92vh] md:h-screen flex items-center justify-center flex-col px-6 md:px-12" style={{ overflow: 'hidden' }}>
+        
+        {/* Canvas */}
         <motion.canvas
           ref={canvasRef}
-          className="pointer-events-none"
+          className="pointer-events-none absolute inset-0 w-full h-full"
           style={{ 
-            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
             transform: 'translateZ(0)',
             willChange: 'transform'
           }}
@@ -180,6 +205,129 @@ export default function HeroScrollSection() {
           animate={{ opacity: isLoaded ? 1 : 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         />
+
+        {/* (Overlay Removed Per Instructions) */}
+
+        {/* Text Content */}
+        <div className="relative z-20 w-full text-center pointer-events-none flex flex-col items-center justify-center max-w-[700px]">
+          
+          <style>{`
+            @keyframes magnetPull {
+              0%, 100% { transform: translateY(-5px) translateX(0) rotate(-20deg); }
+              50% { transform: translateY(-5px) translateX(-3px) rotate(-18deg); }
+            }
+            .magnet {
+              display: inline-block;
+              width: 22px;
+              height: 22px;
+              margin-left: 8px;
+              vertical-align: middle;
+              background: url('/magnet-icon.svg') no-repeat center;
+              background-size: contain;
+              animation: magnetPull 2s ease-in-out infinite;
+            }
+            @media (min-width: 768px) {
+              .magnet {
+                width: 26px;
+                height: 26px;
+                margin-left: 10px;
+              }
+            }
+            @keyframes smoothBounce {
+              0%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+              }
+              50% {
+                transform: translateY(8px);
+                opacity: 1;
+              }
+            }
+            .scroll-indicator {
+              position: absolute;
+              bottom: 28px;
+              left: 50%;
+              transform: translateX(-50%);
+              opacity: 0.8;
+              z-index: 10;
+              cursor: pointer;
+            }
+            .scroll-indicator svg {
+              animation: smoothBounce 2s ease-in-out infinite;
+              filter: drop-shadow(0 2px 6px rgba(200,92,92,0.25));
+            }
+          `}</style>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 15 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col items-center w-full px-4 text-center"
+          >
+            <h1 
+              className="font-display font-semibold" 
+              style={{ 
+                color: '#2A1A1A',
+                fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', 
+                lineHeight: 1.15,
+                letterSpacing: '-0.5px',
+                textShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
+              }}
+            >
+              Where Love Finds <br />
+              <span className="pull-text inline-flex items-center" style={{ color: '#C85C5C' }}>
+                Its Pull <span className="magnet"></span>
+              </span>
+            </h1>
+            
+            <div className="pointer-events-auto w-full flex justify-center mt-[38px]">
+              <button 
+                onClick={() => {
+                  window.scrollTo({
+                    top: window.innerHeight * (window.innerWidth < 768 ? 2.5 : 3),
+                    behavior: 'smooth'
+                  });
+                }} 
+                className="w-full max-w-[260px] py-3 px-8 rounded-full font-label text-[12px] tracking-[0.08em] uppercase text-white flex items-center justify-center transition-all duration-300 ease-out relative z-30"
+                style={{
+                  background: 'linear-gradient(135deg, #C85C5C, #E07A7A)',
+                  boxShadow: '0 8px 24px rgba(200,92,92,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 14px 36px rgba(200,92,92,0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(200,92,92,0.35), inset 0 1px 0 rgba(255,255,255,0.2)';
+                }}
+              >
+                Shop The Collection
+              </button>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Scroll Indicator positioned at bottom of the sticky screen */}
+        {isLoaded && (
+          <div 
+            className="scroll-indicator"
+            onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path 
+                d="M6 10L12 16L18 10" 
+                stroke="#C85C5C" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        )}
+
       </div>
     </div>
   );

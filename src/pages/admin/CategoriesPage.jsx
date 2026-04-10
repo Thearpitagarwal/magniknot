@@ -63,7 +63,7 @@ export default function CategoriesPage() {
     catch (err) { window.alert(err.message); }
   };
 
-  if (loading) return <div className="animate-spin h-5 w-5 border-2 border-rose-200 border-t-rose-500 rounded-full mx-auto mt-20"></div>;
+  if (loading) return null;
 
   return (
     <div className="max-w-3xl font-body">

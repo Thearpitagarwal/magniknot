@@ -4,8 +4,10 @@ import { getProducts, getCategories, getSettings } from '../services/api';
 
 import ProductCard from '../components/storefront/ProductCard';
 import ProductDetailModal from '../components/storefront/ProductDetailModal';
-import HeroScrollSection from '../components/HeroScrollSection';
+import React, { Suspense } from 'react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
+
+const HeroScrollSection = React.lazy(() => import('../components/HeroScrollSection'));
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -20,6 +22,11 @@ export default function HomePage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
+    // Safety fallback: force UI to reveal after 2.5s if local Supabase network hangs
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
     const fetchData = async () => {
       try {
         const [prodRes, catRes, setRes] = await Promise.all([
@@ -36,18 +43,34 @@ export default function HomePage() {
         console.error("Failed to fetch storefront data", err);
       } finally {
         setLoading(false);
+        clearTimeout(timeoutId);
       }
     };
     fetchData();
+    
+    return () => clearTimeout(timeoutId);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="w-48 h-[2px] bg-rose-200 relative overflow-hidden skeleton rounded-full"></div>
-      </div>
-    );
-  }
+  // ── Seamless Pre-React Loader Dismissal ──
+  useEffect(() => {
+    if (!loading) {
+      // Use requestAnimationFrame to ensure React has painted the real DOM 
+      // now that loading=false and the lists are populated.
+      requestAnimationFrame(() => {
+        const root = document.getElementById('root');
+        const loader = document.getElementById('site-loader');
+        
+        if (root) {
+          root.style.opacity = '1';
+        }
+        
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 600);
+        }
+      });
+    }
+  }, [loading]);
 
   const featuredProducts = products.filter(p => p.featured).slice(0, 8);
 
@@ -55,7 +78,9 @@ export default function HomePage() {
     <div className="font-body bg-white w-full">
       
       {/* ════════ HERO — Scrollytelling Canvas ════════ */}
-      <HeroScrollSection />
+      <Suspense fallback={<div className="w-full h-screen bg-[#F9F3EE]" />}>
+        <HeroScrollSection />
+      </Suspense>
 
       {/* ════════ CATALOGUE CONTAINER ════════ */}
       <div className="w-full bg-white">
@@ -144,7 +169,7 @@ export default function HomePage() {
               Born from the belief that beautiful things shouldn't cost a fortune
             </h2>
             <p className="font-body text-[18px] md:text-[20px] text-graphite/70 leading-relaxed mb-10">
-              Every piece is thoughtfully curated — minimal, wearable, and made to be loved every day. This is jewellery that feels personal, because it is.
+              Every piece is thoughtfully curated - minimal, wearable, and made to be loved every day This is jewellery that feels personal, because it is
             </p>
             <a
               href={`https://instagram.com/${settings.instagramHandle || 'magniknot'}`}

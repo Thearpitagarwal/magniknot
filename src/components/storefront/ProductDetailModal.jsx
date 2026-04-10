@@ -91,7 +91,7 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           {/* Right: Details */}
-          <div className="w-full md:w-[45%] p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto bg-white">
+          <div className="w-full h-full md:h-auto md:w-[45%] p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto bg-white pb-[140px] md:pb-8 lg:pb-10">
             <div className="mb-8">
               <h2 className="font-display font-semibold text-[26px] md:text-[30px] text-charcoal leading-tight mb-3 pr-10">
                 {product.name}
@@ -103,15 +103,15 @@ export default function ProductDetailModal({ product, onClose }) {
                 )}
               </div>
               <p className="font-body text-[17px] text-warm-grey leading-relaxed">
-                {product.description || "Every piece is thoughtfully curated — minimal, wearable, and made to be loved every day."}
+                {product.description || "Every piece is thoughtfully curated - minimal, wearable, and made to be loved every day"}
               </p>
             </div>
 
-            <div className="mt-auto pt-6 space-y-3">
+            <div className="fixed bottom-0 left-0 right-0 p-4 md:p-0 bg-white/95 backdrop-blur-md border-t border-rose-100 md:relative md:bg-transparent md:border-none md:backdrop-blur-none md:mt-auto space-y-3 z-[70] shadow-[0_-8px_20px_rgba(0,0,0,0.04)] md:shadow-none">
               <button 
                 onClick={() => { addToBag(product); onClose(); }}
                 disabled={isOutOfStock}
-                className="w-full py-4 bg-rose-500 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase hover:bg-rose-600 transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)] disabled:opacity-50 disabled:hover:shadow-none"
+                className="w-full min-h-[48px] md:py-4 bg-rose-500 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase hover:bg-rose-600 transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)] disabled:opacity-50 disabled:hover:shadow-none"
               >
                 Add to Bag
               </button>
@@ -119,13 +119,13 @@ export default function ProductDetailModal({ product, onClose }) {
               <button 
                 onClick={handleWhatsAppOrder}
                 disabled={isOutOfStock}
-                className="w-full py-4 bg-white border border-[#25D366] text-[#25D366] rounded-full font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300 disabled:opacity-50"
+                className="w-full min-h-[48px] md:py-4 bg-white border border-[#25D366] text-[#25D366] rounded-full font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300 disabled:opacity-50"
               >
                 <MessageCircle size={16} />
                 Order on WhatsApp
               </button>
 
-              <p className="text-center font-label text-[10px] tracking-[0.15em] text-warm-grey mt-3 uppercase">
+              <p className="text-center font-label text-[10px] tracking-[0.15em] text-warm-grey mt-2 uppercase hidden md:block">
                 {isOutOfStock ? "Currently out of stock" : "Secure payment via WhatsApp"}
               </p>
             </div>
