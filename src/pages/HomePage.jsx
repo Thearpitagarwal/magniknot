@@ -19,14 +19,10 @@ export default function HomePage() {
   });
   
   const [loading, setLoading] = useState(true);
+  const [imagesReady, setImagesReady] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    // Safety fallback: force UI to reveal after 2.5s if local Supabase network hangs
-    const timeoutId = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-
     const fetchData = async () => {
       try {
         const [prodRes, catRes, setRes] = await Promise.all([
@@ -43,19 +39,16 @@ export default function HomePage() {
         console.error("Failed to fetch storefront data", err);
       } finally {
         setLoading(false);
-        clearTimeout(timeoutId);
       }
     };
     fetchData();
-    
-    return () => clearTimeout(timeoutId);
   }, []);
 
   // ── Seamless Pre-React Loader Dismissal ──
   useEffect(() => {
-    if (!loading) {
+    if (!loading && imagesReady) {
       // Use requestAnimationFrame to ensure React has painted the real DOM 
-      // now that loading=false and the lists are populated.
+      // now that components are fully hydrated and Hero has initialized
       requestAnimationFrame(() => {
         const root = document.getElementById('root');
         const loader = document.getElementById('site-loader');
@@ -70,7 +63,7 @@ export default function HomePage() {
         }
       });
     }
-  }, [loading]);
+  }, [loading, imagesReady]);
 
   const featuredProducts = products.filter(p => p.featured).slice(0, 8);
 
@@ -79,7 +72,7 @@ export default function HomePage() {
       
       {/* ════════ HERO — Scrollytelling Canvas ════════ */}
       <Suspense fallback={<div className="w-full h-screen bg-[#F9F3EE]" />}>
-        <HeroScrollSection />
+        <HeroScrollSection onLoadComplete={() => setImagesReady(true)} />
       </Suspense>
 
       {/* ════════ CATALOGUE CONTAINER ════════ */}

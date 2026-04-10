@@ -10,7 +10,7 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 const TOTAL_FRAMES = 80;
 const LERP_FACTOR = 0.08;
 
-export default function HeroScrollSection() {
+export default function HeroScrollSection({ onLoadComplete }: { onLoadComplete?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
@@ -64,8 +64,9 @@ export default function HeroScrollSection() {
     Promise.all(promises).then(() => {
       imagesRef.current = images;
       setIsLoaded(true);
+      if (onLoadComplete) onLoadComplete();
     });
-  }, []);
+  }, [onLoadComplete]);
 
   // ── Framer Motion scroll tracking ──
   const { scrollYProgress } = useScroll({
