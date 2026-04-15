@@ -1,16 +1,74 @@
-# React + Vite
+# MagniKnot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern jewellery storefront built using React (Vite) and Supabase, focused on performance, clean UI architecture, and seamless in-page interactions.
 
-Currently, two official plugins are available:
+## 📌 Overview
+MagniKnot is a single-page application (SPA) designed to deliver a smooth and responsive product browsing experience without page reloads.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Key goals:**
+* Fast rendering and optimized asset delivery
+* Consistent UI/UX across devices
+* Scalable product and media management
+* Minimal, high-performance frontend architecture
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. In-Section Pagination
+* Displays 8 products per view
+* Navigation via left/right controls
+* No routing or page reloads
+* Smooth transitions (fade + slight shift)
 
-## Expanding the ESLint configuration
+### 2. Product Interaction (Mobile + Desktop)
+* Tap/click-based interaction (no hover dependency)
+* Product details accessible via:
+    * Modal OR expandable card
+* Fully responsive behavior across devices
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 3. Performance Optimization
+* Lazy loading for:
+    * Images
+    * Heavy components (e.g. 3D section)
+* WebP image format (reduced size)
+* Preloading of critical assets
+* Lightweight animations
+
+### 4. Custom Loading System
+* Loader injected in `index.html`
+* Controlled removal after app readiness
+* Prevents blank screen during load
+
+### 5. Supabase Integration
+* Product data stored in Supabase database
+* Images stored in Supabase Storage
+* Public URLs used for rendering assets
+
+### 6. UI Enhancements
+* Custom hero section with controlled typography
+* Scroll indicator with smooth animation
+* Magnet-based micro interaction
+* Minimal, consistent design system
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React (Vite) |
+| **Styling** | Tailwind CSS |
+| **Backend** | Supabase |
+| **Storage** | Supabase Storage |
+| **Deployment** | Vercel |
+
+## 📁 Project Structure
+```text
+src/
+├── components/
+│   ├── HeroSection.jsx
+│   ├── ProductSection.jsx
+│   ├── ProductCard.jsx
+│   ├── Loader.jsx
+│
+├── pages/
+├── utils/
+├── assets/
+├── styles/
