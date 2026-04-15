@@ -59,7 +59,7 @@ export default function ProductDetailModal({ product, onClose }) {
               {images[activeImageIndex] ? (
                 <img 
                   src={images[activeImageIndex]} 
-                  alt={product.name}
+                  alt={`${product.name} - MagniKnot Luxury Jewellery Collection`}
                   className={`w-full h-full object-cover ${isOutOfStock ? 'grayscale' : ''}`}
                 />
               ) : (
@@ -83,7 +83,7 @@ export default function ProductDetailModal({ product, onClose }) {
                       activeImageIndex === idx ? 'border-rose-400 shadow-sm' : 'border-transparent opacity-50 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
+                    <img src={img} className="w-full h-full object-cover" alt={`${product.name} Thumbnail ${idx + 1}`} />
                   </button>
                 ))}
               </div>

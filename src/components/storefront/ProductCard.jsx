@@ -31,7 +31,7 @@ export default function ProductCard({ product, onClick }) {
           <>
             <img 
               src={primaryImage} 
-              alt={product.name} 
+              alt={`${product.name} - MagniKnot Elegant Jewellery`} 
               loading="lazy"
               decoding="async"
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-0 lg:group-hover:scale-105 opacity-100 scale-100 ${isOutOfStock ? 'grayscale' : ''}`}
@@ -39,7 +39,7 @@ export default function ProductCard({ product, onClick }) {
             {secondaryImage !== primaryImage && (
               <img 
                 src={secondaryImage} 
-                alt={`${product.name} Alternate`} 
+                alt={`${product.name} Alternate View`} 
                 loading="lazy"
                 decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-100 lg:group-hover:scale-100 opacity-0 scale-105 ${isOutOfStock ? 'grayscale' : ''}`}

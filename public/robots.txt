@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Host
+Host: https://magniknot.vercel.app
+
+# Sitemaps
+Sitemap: https://magniknot.vercel.app/sitemap.xml
