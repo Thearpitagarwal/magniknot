@@ -1,8 +1,38 @@
+# ═══════════════════════════════════════════════════
+# robots.txt — MagniKnot Jewellery
+# https://magniknot.vercel.app
+# ═══════════════════════════════════════════════════
+
+# Allow all search engines to crawl public pages
 User-agent: *
 Allow: /
+Allow: /sitemap.xml
 
-# Host
-Host: https://magniknot.vercel.app
+# Block admin panel and private routes
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/categories
+Disallow: /admin/settings
 
-# Sitemaps
+# Block large hero frame assets from being crawled (saves crawl budget)
+Disallow: /video-split/
+
+# ── Google-specific directives ──
+User-agent: Googlebot
+Allow: /
+Allow: /sitemap.xml
+Disallow: /admin
+Disallow: /admin/
+Disallow: /video-split/
+
+# ── Bing-specific directives ──
+User-agent: Bingbot
+Allow: /
+Allow: /sitemap.xml
+Disallow: /admin
+Disallow: /admin/
+Disallow: /video-split/
+
+# Sitemap location
 Sitemap: https://magniknot.vercel.app/sitemap.xml

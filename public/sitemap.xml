@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage / Main Storefront -->
   <url>
     <loc>https://magniknot.vercel.app/</loc>
-    <lastmod>2024-05-20</lastmod>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+
+    <!-- Product images for Google Image Search indexing -->
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/magniknot_logo.png</image:loc>
+      <image:title>MagniKnot Logo - Elegant Jewellery Brand</image:title>
+      <image:caption>MagniKnot — Where Love Finds Its Pull. Modern minimal jewellery brand from India.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/gold-chain.png</image:loc>
+      <image:title>Eternal Gold Chain - MagniKnot</image:title>
+      <image:caption>Timeless gold-plated chain, lightweight and elegant for everyday wear.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/tulip-bracelet.png</image:loc>
+      <image:title>Tulip Bracelet - MagniKnot</image:title>
+      <image:caption>Delicate rose-gold bracelet inspired by spring tulips.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/silver-rings.png</image:loc>
+      <image:title>Minimal Stack Ring Set - MagniKnot</image:title>
+      <image:caption>Set of three delicate sterling silver stacking rings.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/statement-earrings.png</image:loc>
+      <image:title>Aurora Statement Earrings - MagniKnot</image:title>
+      <image:caption>Bold sculptural gold-plated brass earrings that catch the light beautifully.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/pearl-pendant.png</image:loc>
+      <image:title>Pearl Drop Pendant - MagniKnot</image:title>
+      <image:caption>Elegant freshwater pearl pendant on a fine gold chain.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/images/charm-bracelet.png</image:loc>
+      <image:title>Heart Charm Bracelet - MagniKnot</image:title>
+      <image:caption>Dainty gold-plated chain bracelet with tiny heart charms.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://magniknot.vercel.app/preview-image.png</image:loc>
+      <image:title>MagniKnot Jewellery Collection Preview</image:title>
+      <image:caption>Discover rings, bracelets, necklaces and more at MagniKnot.</image:caption>
+    </image:image>
   </url>
-  <url>
-    <loc>https://magniknot.vercel.app/shop</loc>
-    <lastmod>2024-05-20</lastmod>
-    <priority>0.8</priority>
-  </url>
+
 </urlset>
