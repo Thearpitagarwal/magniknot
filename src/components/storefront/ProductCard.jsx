@@ -23,8 +23,6 @@ export default function ProductCard({ product, onClick }) {
   return (
     <div 
       onClick={() => onClick(product)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="group relative flex flex-col bg-white rounded-2xl overflow-hidden cursor-pointer card-hover h-full border border-rose-100/60"
     >
       {/* Image */}
@@ -36,9 +34,7 @@ export default function ProductCard({ product, onClick }) {
               alt={product.name} 
               loading="lazy"
               decoding="async"
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
-                isHovered && secondaryImage !== primaryImage ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
-              } ${isOutOfStock ? 'grayscale' : ''}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-0 lg:group-hover:scale-105 opacity-100 scale-100 ${isOutOfStock ? 'grayscale' : ''}`}
             />
             {secondaryImage !== primaryImage && (
               <img 
@@ -46,9 +42,7 @@ export default function ProductCard({ product, onClick }) {
                 alt={`${product.name} Alternate`} 
                 loading="lazy"
                 decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
-                  isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-                } ${isOutOfStock ? 'grayscale' : ''}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-100 lg:group-hover:scale-100 opacity-0 scale-105 ${isOutOfStock ? 'grayscale' : ''}`}
               />
             )}
           </>
@@ -68,9 +62,7 @@ export default function ProductCard({ product, onClick }) {
         )}
 
         {/* Quick Add button (desktop hover) */}
-        <div className={`absolute bottom-3 left-3 right-3 transition-all duration-300 hidden lg:block ${
-          isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-        }`}>
+        <div className="absolute bottom-3 left-3 right-3 transition-all duration-300 hidden lg:block opacity-0 translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0">
           <button 
             onClick={handleAdd}
             disabled={isOutOfStock}

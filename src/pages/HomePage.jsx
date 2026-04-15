@@ -4,6 +4,7 @@ import { getProducts, getCategories, getSettings } from '../services/api';
 
 import ProductCard from '../components/storefront/ProductCard';
 import ProductDetailModal from '../components/storefront/ProductDetailModal';
+import ProductSection from '../components/storefront/ProductSection';
 import React, { Suspense } from 'react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
@@ -65,7 +66,7 @@ export default function HomePage() {
     }
   }, [loading, imagesReady]);
 
-  const featuredProducts = products.filter(p => p.featured).slice(0, 8);
+  const featuredProducts = products.filter(p => p.featured);
 
   return (
     <div className="font-body bg-white w-full">
@@ -79,69 +80,24 @@ export default function HomePage() {
       <div className="w-full bg-white">
 
         {/* ── Featured Section ── */}
-        {featuredProducts.length > 0 && (
-          <section id="featured-section" className="bg-white py-16 md:py-24">
-            <div className="max-w-7xl mx-auto px-6 md:px-10">
-              <motion.div
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true, margin: "-80px" }}
-                variants={staggerContainer}
-              >
-                <motion.div variants={fadeInUp} className="mb-10">
-                  <h2 className="section-heading font-display text-h2 text-charcoal">
-                    {settings.featuredSectionLabel}
-                  </h2>
-                </motion.div>
-                
-                <motion.div variants={fadeInUp} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
-                  {featuredProducts.map((prod) => (
-                    <ProductCard key={prod.id} product={prod} onClick={setSelectedProduct} />
-                  ))}
-                </motion.div>
-              </motion.div>
-            </div>
-          </section>
-        )}
+        <ProductSection 
+          title={settings.featuredSectionLabel} 
+          products={featuredProducts} 
+          onClickProduct={setSelectedProduct} 
+          className="bg-white"
+        />
 
         {/* ── Category Sections ── */}
-        {categories.map((cat, index) => {
-          const catProducts = products.filter(p => p.categoryId === cat.id);
-          if (catProducts.length === 0) return null;
-          
-          return (
-            <section 
-              key={cat.id} 
-              className={`py-16 md:py-24 ${index % 2 !== 0 ? 'bg-snow' : 'bg-white'}`}
-            >
-              {/* Subtle divider */}
-              <div className="max-w-xs mx-auto mb-12">
-                <div className="h-px bg-gradient-to-r from-transparent via-rose-200 to-transparent" />
-              </div>
-              
-              <div className="max-w-7xl mx-auto px-6 md:px-10">
-                <motion.div
-                  initial="initial"
-                  whileInView="animate"
-                  viewport={{ once: true, margin: "-80px" }}
-                  variants={staggerContainer}
-                >
-                  <motion.div variants={fadeInUp} className="mb-10">
-                    <h2 className="section-heading font-display text-h2 text-charcoal">
-                      {cat.name}
-                    </h2>
-                  </motion.div>
-                  
-                  <motion.div variants={fadeInUp} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
-                    {catProducts.map((prod) => (
-                      <ProductCard key={prod.id} product={prod} onClick={setSelectedProduct} />
-                    ))}
-                  </motion.div>
-                </motion.div>
-              </div>
-            </section>
-          );
-        })}
+        {categories.map((cat, index) => (
+          <ProductSection 
+            key={cat.id} 
+            title={cat.name} 
+            products={products.filter(p => p.categoryId === cat.id)} 
+            onClickProduct={setSelectedProduct}
+            className={index % 2 !== 0 ? 'bg-snow' : 'bg-white'}
+            showDivider={true}
+          />
+        ))}
 
         {/* ── Brand Story ── */}
         <section className="bg-rose-50 py-20 md:py-28 px-6 text-center">
