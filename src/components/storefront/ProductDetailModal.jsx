@@ -19,9 +19,13 @@ export default function ProductDetailModal({ product, onClose }) {
   };
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, [onClose]);
 
   if (!product) return null;
@@ -38,12 +42,12 @@ export default function ProductDetailModal({ product, onClose }) {
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-center justify-center p-0 md:p-6 lg:p-12"
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center p-0 md:p-6 lg:p-12"
         onClick={handleBackdropClick}
       >
         <motion.div 
           {...modalSlide}
-          className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-[880px] md:rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden relative"
+          className="bg-white w-full max-h-[95vh] md:h-auto md:max-h-[90vh] md:max-w-[880px] rounded-t-3xl md:rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-y-auto md:overflow-hidden relative"
         >
           {/* Close */}
           <button 
@@ -54,13 +58,13 @@ export default function ProductDetailModal({ product, onClose }) {
           </button>
 
           {/* Left: Image Gallery */}
-          <div className="w-full md:w-[55%] flex flex-col bg-snow">
-            <div className="aspect-[4/5] md:aspect-auto md:flex-1 relative bg-snow">
+          <div className="w-full md:w-[55%] flex-shrink-0 flex flex-col bg-snow">
+            <div className="h-[60vh] md:h-auto md:aspect-auto md:flex-1 relative bg-snow md:min-h-0">
               {images[activeImageIndex] ? (
                 <img 
                   src={images[activeImageIndex]} 
                   alt={`${product.name} - MagniKnot Luxury Jewellery Collection`}
-                  className={`w-full h-full object-cover ${isOutOfStock ? 'grayscale' : ''}`}
+                  className={`w-full h-full object-contain md:object-cover ${isOutOfStock ? 'grayscale' : ''}`}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-warm-grey font-label text-[11px] tracking-widest">NO IMAGE</div>
@@ -91,23 +95,10 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           {/* Right: Details */}
-          <div className="w-full h-full md:h-auto md:w-[45%] p-6 md:p-8 lg:p-10 flex flex-col overflow-y-auto bg-white pb-[140px] md:pb-8 lg:pb-10">
-            <div className="mb-8">
-              <h2 className="font-display font-semibold text-[26px] md:text-[30px] text-charcoal leading-tight mb-3 pr-10">
-                {product.name}
-              </h2>
-              <div className="flex items-center gap-4 mb-5">
-                <span className="price-tag text-[18px]">₹{product.price}</span>
-                {product.materialNote && (
-                  <span className="material-tag">{product.materialNote}</span>
-                )}
-              </div>
-              <p className="font-body text-[17px] text-warm-grey leading-relaxed">
-                {product.description || "Every piece is thoughtfully curated - minimal, wearable, and made to be loved every day"}
-              </p>
-            </div>
-
-            <div className="fixed bottom-0 left-0 right-0 p-4 md:p-0 bg-white/95 backdrop-blur-md border-t border-rose-100 md:relative md:bg-transparent md:border-none md:backdrop-blur-none md:mt-auto space-y-3 z-[70] shadow-[0_-8px_20px_rgba(0,0,0,0.04)] md:shadow-none">
+          <div className="w-full md:w-[45%] p-5 md:p-8 lg:p-10 flex flex-col md:overflow-y-auto bg-white">
+            
+            {/* CTAs */}
+            <div className="flex flex-col space-y-3 z-[70] order-1 md:order-2 md:mt-auto border-b border-rose-50 pb-5 mb-5 md:border-none md:pb-0 md:mb-0">
               <button 
                 onClick={() => { addToBag(product); onClose(); }}
                 disabled={isOutOfStock}
@@ -127,6 +118,24 @@ export default function ProductDetailModal({ product, onClose }) {
 
               <p className="text-center font-label text-[10px] tracking-[0.15em] text-warm-grey mt-2 uppercase hidden md:block">
                 {isOutOfStock ? "Currently out of stock" : "Secure payment via WhatsApp"}
+              </p>
+            </div>
+
+            {/* Text Information */}
+            <div className="flex flex-col order-2 md:order-1 md:mb-8">
+              <h2 className="font-display font-semibold text-[26px] md:text-[30px] text-charcoal leading-tight mb-3 pr-10 md:order-1 order-1">
+                {product.name}
+              </h2>
+              
+              <div className="flex items-center gap-4 mb-0 md:mb-5 md:order-2 order-3 mt-6 md:mt-0">
+                <span className="price-tag text-[18px]">₹{product.price}</span>
+                {product.materialNote && (
+                  <span className="material-tag">{product.materialNote}</span>
+                )}
+              </div>
+
+              <p className="font-body text-[17px] text-warm-grey leading-relaxed md:order-3 order-2">
+                {product.description || "Every piece is thoughtfully curated - minimal, wearable, and made to be loved every day"}
               </p>
             </div>
           </div>

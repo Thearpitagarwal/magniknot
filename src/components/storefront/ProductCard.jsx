@@ -8,7 +8,8 @@ export default function ProductCard({ product, onClick }) {
   const [isAdded, setIsAdded] = useState(false);
 
   const primaryImage = product?.images?.[0] || '';
-  const secondaryImage = product?.images?.[1] || primaryImage;
+  const secondaryImage = product?.images?.[1] || '';
+  const hasHoverImage = !!secondaryImage && secondaryImage !== primaryImage;
   const isOutOfStock = !product?.active;
 
   const handleAdd = (e) => {
@@ -34,9 +35,9 @@ export default function ProductCard({ product, onClick }) {
               alt={`${product.name} - MagniKnot Elegant Jewellery`} 
               loading="lazy"
               decoding="async"
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-0 lg:group-hover:scale-105 opacity-100 scale-100 ${isOutOfStock ? 'grayscale' : ''}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${hasHoverImage ? 'lg:group-hover:opacity-0 lg:group-hover:scale-105' : 'lg:group-hover:scale-105'} opacity-100 scale-100 ${isOutOfStock ? 'grayscale' : ''}`}
             />
-            {secondaryImage !== primaryImage && (
+            {hasHoverImage && (
               <img 
                 src={secondaryImage} 
                 alt={`${product.name} Alternate View`} 

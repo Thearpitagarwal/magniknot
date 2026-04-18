@@ -8,6 +8,73 @@ import ProductSection from '../components/storefront/ProductSection';
 import React, { Suspense } from 'react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
+// ─── MOCK DATA (for local UX testing only) ──────────────────────────────────
+// Set USE_MOCK = false (or remove this block) before deploying to production.
+const USE_MOCK = true;
+
+const MOCK_CATEGORIES = [
+  { id: 'cat-1', name: 'Rings', order: 1, active: true },
+  { id: 'cat-2', name: 'Bracelets', order: 2, active: true },
+];
+
+const MOCK_PRODUCTS = [
+  // Single-image product → should zoom on hover (no blank state)
+  {
+    id: 'mock-1',
+    name: 'Bloom Solitaire Ring',
+    price: 799,
+    categoryId: 'cat-1',
+    description: 'A delicate solitaire ring crafted with precision. Lightweight, everyday-wearable, and timeless in design. Perfect for gifting or treating yourself.',
+    materialNote: '925 Silver · Anti-tarnish',
+    images: ['https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80'],
+    featured: true,
+    active: true,
+  },
+  // Two-image product → should swap on hover
+  {
+    id: 'mock-2',
+    name: 'Aurora Stacker Band',
+    price: 1199,
+    categoryId: 'cat-1',
+    description: 'Stack it your way. The Aurora Stacker is designed to layer beautifully with other rings. Smooth finish, minimal profile, maximum elegance.',
+    materialNote: '18K Gold Plated',
+    images: [
+      'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80',
+      'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&q=80',
+    ],
+    featured: true,
+    active: true,
+  },
+  // Out-of-stock product
+  {
+    id: 'mock-3',
+    name: 'Pearl Whisper Bracelet',
+    price: 649,
+    categoryId: 'cat-2',
+    description: 'Soft freshwater pearls threaded on a silk cord with a sterling silver clasp. Understated luxury for the modern woman.',
+    materialNote: 'Freshwater Pearl · 925 Silver clasp',
+    images: ['https://images.unsplash.com/photo-1535556116002-6281ff3e9f36?w=600&q=80'],
+    featured: false,
+    active: false, // out of stock
+  },
+  // Bracelet with 2 images
+  {
+    id: 'mock-4',
+    name: 'Infinity Chain Bracelet',
+    price: 899,
+    categoryId: 'cat-2',
+    description: 'A sleek chain bracelet with an infinity-link pattern. Wear it alone or layer it up — it works both ways effortlessly.',
+    materialNote: 'Rose Gold Plated · 925 Silver',
+    images: [
+      'https://images.unsplash.com/photo-1573408301185-9519f94-ae4e?w=600&q=80',
+      'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&q=80',
+    ],
+    featured: false,
+    active: true,
+  },
+];
+// ─────────────────────────────────────────────────────────────────────────────
+
 const HeroScrollSection = React.lazy(() => import('../components/HeroScrollSection'));
 
 export default function HomePage() {
@@ -26,6 +93,14 @@ export default function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (USE_MOCK) {
+          // ── Mock mode: bypass Supabase ──
+          setProducts(MOCK_PRODUCTS.filter(p => p.active));
+          setCategories(MOCK_CATEGORIES.filter(c => c.active).sort((a, b) => a.order - b.order));
+          setLoading(false);
+          return;
+        }
+
         const [prodRes, catRes, setRes] = await Promise.all([
           getProducts(),
           getCategories(),
