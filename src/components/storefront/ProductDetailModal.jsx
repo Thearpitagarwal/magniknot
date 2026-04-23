@@ -101,19 +101,14 @@ export default function ProductDetailModal({ product, onClose }) {
             <div className="flex flex-col space-y-3 z-[70] order-1 md:order-2 md:mt-auto border-b border-rose-50 pb-5 mb-5 md:border-none md:pb-0 md:mb-0">
               {isOutOfStock ? (
                 <>
-                  <button disabled style={{
-                    width: '100%',
-                    padding: '14px',
-                    background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
-                    color: 'var(--warm-grey)',
-                    fontFamily: "'Josefin Sans', sans-serif",
-                    fontSize: '11px',
-                    letterSpacing: '0.3em',
-                    textTransform: 'uppercase',
-                    border: 'none',
-                    borderRadius: 0,
-                    cursor: 'not-allowed',
-                  }}>
+                  <button disabled
+                    className="w-full min-h-[48px] md:py-4 rounded-full font-label text-[12px] tracking-[0.15em] uppercase cursor-not-allowed"
+                    style={{
+                      background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
+                      color: 'var(--warm-grey)',
+                      border: 'none',
+                    }}
+                  >
                     Sold Out
                   </button>
 
@@ -133,19 +128,14 @@ export default function ProductDetailModal({ product, onClose }) {
                 <>
                   <button 
                     onClick={() => { addToBag(product); onClose(); }}
-                    className="w-full min-h-[48px] md:py-4 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)]"
-                    style={{
-                      background: 'linear-gradient(90deg, var(--rose-400), var(--rose-600))',
-                      borderRadius: 0,
-                    }}
+                    className="w-full min-h-[48px] md:py-4 bg-rose-500 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase hover:bg-rose-600 transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)]"
                   >
                     Add to Bag
                   </button>
 
                   <button 
                     onClick={handleWhatsAppOrder}
-                    className="w-full min-h-[48px] md:py-4 bg-white border border-[#25D366] text-[#25D366] font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300"
-                    style={{ borderRadius: 0 }}
+                    className="w-full min-h-[48px] md:py-4 bg-white border border-[#25D366] text-[#25D366] rounded-full font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300"
                   >
                     <MessageCircle size={16} />
                     Order on WhatsApp

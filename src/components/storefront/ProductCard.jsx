@@ -130,19 +130,11 @@ export default function ProductCard({ product, onClick }) {
           {isOutOfStock ? (
             <button 
               disabled
+              className="w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.3em] uppercase cursor-not-allowed"
               style={{
-                width: '100%',
                 background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
                 color: 'var(--warm-grey)',
-                fontFamily: "'Josefin Sans', sans-serif",
-                fontSize: '11px',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
                 border: 'none',
-                borderRadius: 0,
-                padding: '10px',
-                cursor: 'not-allowed',
-                minHeight: '44px'
               }}
             >
               Sold Out
@@ -150,12 +142,11 @@ export default function ProductCard({ product, onClick }) {
           ) : (
             <button 
               onClick={handleAdd}
-              className={`w-full min-h-[44px] py-2.5 font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
+              className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
                 isAdded 
                   ? 'bg-green-500 text-white' 
                   : 'bg-white/90 text-rose-500 hover:bg-rose-500 hover:text-white'
               }`}
-              style={{ borderRadius: 0 }}
             >
               {isAdded ? '✓ Added' : (
                 <>
@@ -186,19 +177,11 @@ export default function ProductCard({ product, onClick }) {
         {isOutOfStock ? (
           <button 
             disabled
+            className="w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.3em] uppercase cursor-not-allowed"
             style={{
-              width: '100%',
               background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
               color: 'var(--warm-grey)',
-              fontFamily: "'Josefin Sans', sans-serif",
-              fontSize: '11px',
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
               border: 'none',
-              borderRadius: 0,
-              padding: '10px',
-              cursor: 'not-allowed',
-              minHeight: '44px'
             }}
           >
             Sold Out
@@ -206,12 +189,11 @@ export default function ProductCard({ product, onClick }) {
         ) : (
           <button 
             onClick={handleAdd}
-            className={`w-full min-h-[44px] py-2.5 font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
+            className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
               isAdded 
                 ? 'bg-green-500 text-white' 
                 : 'bg-rose-50 text-rose-500 border border-rose-200 hover:bg-rose-500 hover:text-white hover:border-rose-500'
             }`}
-            style={{ borderRadius: 0 }}
           >
             {isAdded ? '✓ Added' : 'Add to Bag'}
           </button>
