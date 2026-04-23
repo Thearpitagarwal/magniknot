@@ -12,6 +12,8 @@ export default function ProductForm({ product, categories, onClose, onSave }) {
     images: product?.images || [],
     featured: product?.featured || false,
     active: product?.active !== undefined ? product.active : true,
+    stock_status: product?.stock_status || 'in_stock',
+    badge_label: product?.badge_label || '',
   });
 
   const [saving, setSaving] = useState(false);
@@ -167,19 +169,42 @@ export default function ProductForm({ product, categories, onClose, onSave }) {
               <input type="file" ref={fileInputRef} className="hidden" accept="image/jpeg, image/png, image/webp" multiple onChange={handleImageUpload} />
             </div>
 
-            <div className="flex gap-6 pt-1">
+            <div className="flex gap-6 pt-1 mb-4">
               <label className="flex items-center gap-2.5 cursor-pointer">
                 <input type="checkbox" checked={formData.featured}
                   onChange={(e) => setFormData({...formData, featured: e.target.checked})}
                   className="w-4 h-4 text-rose-500 rounded border-rose-300 focus:ring-rose-200 accent-rose-500" />
-                <span className="font-label text-[11px] text-charcoal">Featured</span>
+                <span className="font-label text-[11px] text-charcoal uppercase tracking-[0.1em]">Featured</span>
               </label>
               <label className="flex items-center gap-2.5 cursor-pointer">
                 <input type="checkbox" checked={formData.active}
                   onChange={(e) => setFormData({...formData, active: e.target.checked})}
                   className="w-4 h-4 text-rose-500 rounded border-rose-300 focus:ring-rose-200 accent-rose-500" />
-                <span className="font-label text-[11px] text-charcoal">Active</span>
+                <span className="font-label text-[11px] text-charcoal uppercase tracking-[0.1em]">Active</span>
               </label>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2 border-t border-rose-50">
+              <div>
+                <label className="block font-label text-[10px] tracking-[0.15em] text-warm-grey mb-1.5 uppercase">Stock Status</label>
+                <select value={formData.stock_status}
+                  onChange={(e) => setFormData({...formData, stock_status: e.target.value})}
+                  className={`${inputCls} appearance-none`}
+                  style={{ borderRadius: 0, fontFamily: "'Josefin Sans', sans-serif", fontSize: '13px' }}
+                >
+                  <option value="in_stock">● In Stock</option>
+                  <option value="low_stock">◑ Low Stock</option>
+                  <option value="out_of_stock">○ Out of Stock</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-label text-[10px] tracking-[0.15em] text-warm-grey mb-1.5 uppercase">Badge Label (Optional)</label>
+                <input type="text" maxLength={20} value={formData.badge_label}
+                  onChange={(e) => setFormData({...formData, badge_label: e.target.value})}
+                  className={inputCls} placeholder="e.g. NEW, SALE"
+                  style={{ borderRadius: 0, fontFamily: "'Josefin Sans', sans-serif", fontSize: '13px' }}
+                />
+              </div>
             </div>
           </form>
         </div>

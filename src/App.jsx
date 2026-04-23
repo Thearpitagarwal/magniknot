@@ -8,8 +8,10 @@ import AdminLayout from './components/admin/AdminLayout';
 import CategoriesPage from './pages/admin/CategoriesPage';
 import ProductsPage from './pages/admin/ProductsPage';
 import SettingsPage from './pages/admin/SettingsPage';
+import PromotionsPage from './pages/admin/PromotionsPage';
 import StorefrontLayout from './components/storefront/StorefrontLayout';
 import { BagProvider } from './context/BagContext';
+import { PromotionsProvider } from './context/PromotionsContext';
 
 function App() {
   const [isAdminAuthLoading, setIsAdminAuthLoading] = useState(true);
@@ -31,7 +33,8 @@ function App() {
     <>
       {/* ── Main App ── */}
       <BagProvider>
-        <BrowserRouter>
+        <PromotionsProvider>
+          <BrowserRouter>
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<StorefrontLayout />}>
@@ -47,6 +50,7 @@ function App() {
             >
               <Route index element={<ProductsPage />} />
               <Route path="categories" element={<CategoriesPage />} />
+              <Route path="promotions" element={<PromotionsPage />} />
               <Route path="settings" element={<SettingsPage />} />
             </Route>
             
@@ -54,6 +58,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
+        </PromotionsProvider>
       </BagProvider>
     </>
   );

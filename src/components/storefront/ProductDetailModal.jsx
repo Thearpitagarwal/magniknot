@@ -31,7 +31,7 @@ export default function ProductDetailModal({ product, onClose }) {
   if (!product) return null;
 
   const images = product.images && product.images.length > 0 ? product.images : [null];
-  const isOutOfStock = !product.active;
+  const isOutOfStock = product.stock_status === 'out_of_stock';
 
   const handleWhatsAppOrder = () => {
     if (!whatsappNumber) return;
@@ -99,26 +99,63 @@ export default function ProductDetailModal({ product, onClose }) {
             
             {/* CTAs */}
             <div className="flex flex-col space-y-3 z-[70] order-1 md:order-2 md:mt-auto border-b border-rose-50 pb-5 mb-5 md:border-none md:pb-0 md:mb-0">
-              <button 
-                onClick={() => { addToBag(product); onClose(); }}
-                disabled={isOutOfStock}
-                className="w-full min-h-[48px] md:py-4 bg-rose-500 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase hover:bg-rose-600 transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)] disabled:opacity-50 disabled:hover:shadow-none"
-              >
-                Add to Bag
-              </button>
+              {isOutOfStock ? (
+                <>
+                  <button disabled style={{
+                    width: '100%',
+                    padding: '14px',
+                    background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
+                    color: 'var(--warm-grey)',
+                    fontFamily: "'Josefin Sans', sans-serif",
+                    fontSize: '11px',
+                    letterSpacing: '0.3em',
+                    textTransform: 'uppercase',
+                    border: 'none',
+                    borderRadius: 0,
+                    cursor: 'not-allowed',
+                  }}>
+                    Sold Out
+                  </button>
 
-              <button 
-                onClick={handleWhatsAppOrder}
-                disabled={isOutOfStock}
-                className="w-full min-h-[48px] md:py-4 bg-white border border-[#25D366] text-[#25D366] rounded-full font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300 disabled:opacity-50"
-              >
-                <MessageCircle size={16} />
-                Order on WhatsApp
-              </button>
+                  <p style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: 'italic',
+                    fontSize: '14px',
+                    color: 'var(--warm-grey)',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                    lineHeight: 1.5,
+                  }}>
+                    This piece is currently unavailable. Check back soon.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => { addToBag(product); onClose(); }}
+                    className="w-full min-h-[48px] md:py-4 text-white rounded-full font-label text-[12px] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-[0_8px_25px_rgba(244,63,94,0.25)]"
+                    style={{
+                      background: 'linear-gradient(90deg, var(--rose-400), var(--rose-600))',
+                      borderRadius: 0,
+                    }}
+                  >
+                    Add to Bag
+                  </button>
 
-              <p className="text-center font-label text-[10px] tracking-[0.15em] text-warm-grey mt-2 uppercase hidden md:block">
-                {isOutOfStock ? "Currently out of stock" : "Secure payment via WhatsApp"}
-              </p>
+                  <button 
+                    onClick={handleWhatsAppOrder}
+                    className="w-full min-h-[48px] md:py-4 bg-white border border-[#25D366] text-[#25D366] font-label text-[12px] tracking-[0.15em] uppercase flex justify-center items-center gap-2 hover:bg-[#25D366] hover:text-white transition-all duration-300"
+                    style={{ borderRadius: 0 }}
+                  >
+                    <MessageCircle size={16} />
+                    Order on WhatsApp
+                  </button>
+
+                  <p className="text-center font-label text-[10px] tracking-[0.15em] text-warm-grey mt-2 uppercase hidden md:block">
+                    Secure payment via WhatsApp
+                  </p>
+                </>
+              )}
             </div>
 
             {/* Text Information */}

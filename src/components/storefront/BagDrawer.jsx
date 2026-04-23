@@ -4,11 +4,14 @@ import { useBag } from '../../context/BagContext';
 import { X, MessageCircle } from 'lucide-react';
 import { getSettings } from '../../services/api';
 import { drawerSlide } from '../../utils/animations';
+import ShippingBanner from './ShippingBanner';
+import { usePromotionsContext } from '../../context/PromotionsContext';
 
 export default function BagDrawer() {
   const { bagItems, removeFromBag, isBagOpen, setIsBagOpen, clearBag } = useBag();
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const promotions = usePromotionsContext();
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -116,6 +119,17 @@ export default function BagDrawer() {
                     <div className="flex-1 flex flex-col justify-center min-w-0">
                       <h4 className="font-body text-[15px] text-charcoal line-clamp-2 leading-snug mb-0.5">{item.name}</h4>
                       <p className="price-tag text-[13px]">₹{item.price}</p>
+                      {item.stock_status === 'out_of_stock' && (
+                        <p style={{
+                          fontFamily: "'Cormorant Garamond', serif",
+                          fontStyle: 'italic',
+                          fontSize: '12px',
+                          color: '#B76E79',
+                          marginTop: '4px',
+                        }}>
+                          ⚠ This item may no longer be available
+                        </p>
+                      )}
                     </div>
                     <button 
                       onClick={() => removeFromBag(index)}
@@ -136,6 +150,11 @@ export default function BagDrawer() {
                   <span className="font-label text-[11px] tracking-[0.15em] text-warm-grey uppercase">Estimated Total</span>
                   <span className="font-display font-semibold text-[22px] text-charcoal">₹{totalValue}</span>
                 </div>
+
+                <ShippingBanner 
+                  promotion={promotions?.shipping_banner} 
+                  bagTotal={totalValue} 
+                />
 
                 <button 
                   onClick={handleWhatsAppOrder}

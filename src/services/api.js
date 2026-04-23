@@ -74,6 +74,8 @@ export const getProducts = async () => {
     images: item.images || [],
     featured: item.featured || false,
     active: item.active !== false,
+    stock_status: item.stock_status || 'in_stock',
+    badge_label: item.badge_label || null,
   }));
 };
 
@@ -87,6 +89,8 @@ export const addProduct = async (productData) => {
     images: productData.images || [],
     featured: productData.featured || false,
     active: productData.active !== false,
+    stock_status: productData.stock_status || 'in_stock',
+    badge_label: productData.badge_label || null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
@@ -118,6 +122,8 @@ export const updateProduct = async (id, productData) => {
   if (productData.images !== undefined) payload.images = productData.images;
   if (productData.featured !== undefined) payload.featured = productData.featured;
   if (productData.active !== undefined) payload.active = productData.active;
+  if (productData.stock_status !== undefined) payload.stock_status = productData.stock_status;
+  if (productData.badge_label !== undefined) payload.badge_label = productData.badge_label;
 
   const { error } = await supabase
     .from('products')

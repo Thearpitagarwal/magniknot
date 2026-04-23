@@ -4,11 +4,23 @@ import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { useBag } from '../../context/BagContext';
 import { subscribeToSettings } from '../../services/api';
 import BagDrawer from './BagDrawer';
+import AnnouncementBar from './AnnouncementBar';
+import { usePromotionsContext } from '../../context/PromotionsContext';
 
 export default function StorefrontLayout() {
   const { bagItems, setIsBagOpen } = useBag();
   const [showBagIcon, setShowBagIcon] = useState(false);
   const [settings, setSettings] = useState({ brandTagline: 'Where love sticks forever', instagramHandle: '', whatsappNumber: '' });
+  
+  const promotions = usePromotionsContext();
+  const [isAnnouncementVisible, setIsAnnouncementVisible] = useState(false);
+
+  // We set visibility initially based on whether promotion is active and not dismissed
+  // This will be updated by onDismissChange callback from AnnouncementBar
+  useEffect(() => {
+    const isDismissed = sessionStorage.getItem('mk_bar_dismissed') === 'true';
+    setIsAnnouncementVisible(promotions?.announcement_bar?.active && !isDismissed);
+  }, [promotions?.announcement_bar]);
 
   // Show bag icon once user scrolls past the hero (which is 300vh tall)
   useEffect(() => {
@@ -38,9 +50,16 @@ export default function StorefrontLayout() {
   return (
     <div className="min-h-screen flex flex-col font-body">
       
+      {/* ── Announcement Bar ── */}
+      <AnnouncementBar 
+        promotion={promotions?.announcement_bar} 
+        onDismissChange={(dismissed) => setIsAnnouncementVisible(!dismissed)}
+      />
+
       {/* ── Navbar ── */}
       <header 
-        className="fixed top-0 left-0 right-0 z-50 bg-transparent"
+        className="fixed left-0 right-0 z-50 bg-transparent transition-all duration-300"
+        style={{ top: isAnnouncementVisible ? '36px' : 0 }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-14 md:h-20 flex items-center justify-center md:justify-end relative">
 

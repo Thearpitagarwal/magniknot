@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LogOut, Package, Tags, Settings } from 'lucide-react';
+import { LogOut, Package, Tags, Settings, Megaphone } from 'lucide-react';
 import { logoutAdmin } from '../../services/api';
 
 export default function AdminLayout() {
@@ -17,6 +17,7 @@ export default function AdminLayout() {
   const navItems = [
     { name: 'Products', to: '/admin', icon: Package, end: true },
     { name: 'Categories', to: '/admin/categories', icon: Tags, end: false },
+    { name: 'Promotions', to: '/admin/promotions', icon: Megaphone, end: false },
     { name: 'Settings', to: '/admin/settings', icon: Settings, end: false },
   ];
 

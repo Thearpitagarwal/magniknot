@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useBag } from '../../context/BagContext';
 import { ShoppingBag } from 'lucide-react';
+import { usePromotionsContext } from '../../context/PromotionsContext';
 
 export default function ProductCard({ product, onClick }) {
   const { addToBag } = useBag();
@@ -10,7 +11,17 @@ export default function ProductCard({ product, onClick }) {
   const primaryImage = product?.images?.[0] || '';
   const secondaryImage = product?.images?.[1] || '';
   const hasHoverImage = !!secondaryImage && secondaryImage !== primaryImage;
-  const isOutOfStock = !product?.active;
+  const isOutOfStock = product?.stock_status === 'out_of_stock';
+  const isLowStock = product?.stock_status === 'low_stock';
+  
+  const promotions = usePromotionsContext();
+  const badgeAccentColorMap = {
+    rose: '#FB7185',
+    rose_gold: '#B76E79',
+    blush: '#FECDD3',
+    charcoal: '#2D2D2D'
+  };
+  const badgeAccent = badgeAccentColorMap[promotions?.product_badge?.color] || '#FB7185';
 
   const handleAdd = (e) => {
     e.stopPropagation();
@@ -35,7 +46,8 @@ export default function ProductCard({ product, onClick }) {
               alt={`${product.name} - MagniKnot Elegant Jewellery`} 
               loading="lazy"
               decoding="async"
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${hasHoverImage ? 'lg:group-hover:opacity-0 lg:group-hover:scale-105' : 'lg:group-hover:scale-105'} opacity-100 scale-100 ${isOutOfStock ? 'grayscale' : ''}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${hasHoverImage ? 'lg:group-hover:opacity-0 lg:group-hover:scale-105' : 'lg:group-hover:scale-105'} opacity-100 scale-100`}
+              style={{ filter: isOutOfStock ? 'grayscale(50%) brightness(0.75)' : 'none' }}
             />
             {hasHoverImage && (
               <img 
@@ -43,7 +55,8 @@ export default function ProductCard({ product, onClick }) {
                 alt={`${product.name} Alternate View`} 
                 loading="lazy"
                 decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-100 lg:group-hover:scale-100 opacity-0 scale-105 ${isOutOfStock ? 'grayscale' : ''}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 lg:group-hover:opacity-100 lg:group-hover:scale-100 opacity-0 scale-105`}
+                style={{ filter: isOutOfStock ? 'grayscale(50%) brightness(0.75)' : 'none' }}
               />
             )}
           </>
@@ -55,37 +68,109 @@ export default function ProductCard({ product, onClick }) {
 
         {/* Out of stock overlay */}
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-white/50 flex items-center justify-center backdrop-blur-[2px]">
-            <span className="bg-white px-4 py-2 text-[11px] font-label tracking-[0.15em] uppercase text-charcoal shadow-sm rounded-full">
-              Out of Stock
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(45, 45, 45, 0.40)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{
+              fontFamily: "'Josefin Sans', sans-serif",
+              fontSize: '10px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              border: '1px solid rgba(255,255,255,0.6)',
+              padding: '4px 14px',
+              borderRadius: 0,
+            }}>
+              Sold Out
             </span>
+          </div>
+        )}
+
+        {/* Low stock badge */}
+        {isLowStock && (
+          <div style={{
+            position: 'absolute', top: '10px', left: '10px',
+            background: '#B76E79',
+            color: '#FFFFFF',
+            fontFamily: "'Josefin Sans', sans-serif",
+            fontSize: '8px',
+            letterSpacing: '0.25em',
+            textTransform: 'uppercase',
+            padding: '3px 8px',
+            borderRadius: 0,
+            zIndex: 2,
+          }}>
+            Last few left
+          </div>
+        )}
+
+        {/* Product badge label */}
+        {product.badge_label && !isOutOfStock && !isLowStock && (
+          <div style={{
+            position: 'absolute', top: '10px', left: '10px',
+            background: badgeAccent,
+            color: badgeAccent === '#FECDD3' ? '#2D2D2D' : '#FFFFFF',
+            fontFamily: "'Josefin Sans', sans-serif",
+            fontSize: '9px',
+            letterSpacing: '0.25em',
+            textTransform: 'uppercase',
+            padding: '3px 8px',
+            borderRadius: 0,
+            zIndex: 2,
+            pointerEvents: 'none',
+          }}>
+            {product.badge_label}
           </div>
         )}
 
         {/* Quick Add button (desktop hover) */}
         <div className="absolute bottom-3 left-3 right-3 transition-all duration-300 hidden lg:block opacity-0 translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0">
-          <button 
-            onClick={handleAdd}
-            disabled={isOutOfStock}
-            className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
-              isAdded 
-                ? 'bg-green-500 text-white' 
-                : 'bg-white/90 text-rose-500 hover:bg-rose-500 hover:text-white'
-            }`}
-          >
-            {isAdded ? '✓ Added' : (
-              <>
-                <ShoppingBag size={14} />
-                Add to Bag
-              </>
-            )}
-          </button>
+          {isOutOfStock ? (
+            <button 
+              disabled
+              style={{
+                width: '100%',
+                background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
+                color: 'var(--warm-grey)',
+                fontFamily: "'Josefin Sans', sans-serif",
+                fontSize: '11px',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                border: 'none',
+                borderRadius: 0,
+                padding: '10px',
+                cursor: 'not-allowed',
+                minHeight: '44px'
+              }}
+            >
+              Sold Out
+            </button>
+          ) : (
+            <button 
+              onClick={handleAdd}
+              className={`w-full min-h-[44px] py-2.5 font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 backdrop-blur-md ${
+                isAdded 
+                  ? 'bg-green-500 text-white' 
+                  : 'bg-white/90 text-rose-500 hover:bg-rose-500 hover:text-white'
+              }`}
+              style={{ borderRadius: 0 }}
+            >
+              {isAdded ? '✓ Added' : (
+                <>
+                  <ShoppingBag size={14} />
+                  Add to Bag
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Info */}
       <div className="flex flex-col flex-1 p-4">
-        <h3 className="font-body font-semibold text-[15px] md:text-[16px] text-charcoal line-clamp-2 mb-1.5 leading-snug">
+        <h3 className="font-body font-semibold text-[15px] md:text-[16px] line-clamp-2 mb-1.5 leading-snug" style={{ color: isOutOfStock ? 'var(--warm-grey)' : 'var(--charcoal)' }}>
           {product.name}
         </h3>
         {product.materialNote && (
@@ -98,17 +183,39 @@ export default function ProductCard({ product, onClick }) {
 
       {/* Mobile always-visible Add button */}
       <div className="lg:hidden px-4 pb-4 mt-auto">
-        <button 
-          onClick={handleAdd}
-          disabled={isOutOfStock}
-          className={`w-full min-h-[44px] py-2.5 rounded-xl font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
-            isAdded 
-              ? 'bg-green-500 text-white' 
-              : 'bg-rose-50 text-rose-500 border border-rose-200 hover:bg-rose-500 hover:text-white hover:border-rose-500'
-          }`}
-        >
-          {isAdded ? '✓ Added' : 'Add to Bag'}
-        </button>
+        {isOutOfStock ? (
+          <button 
+            disabled
+            style={{
+              width: '100%',
+              background: 'linear-gradient(90deg, var(--light-grey), #C0C0C0)',
+              color: 'var(--warm-grey)',
+              fontFamily: "'Josefin Sans', sans-serif",
+              fontSize: '11px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              border: 'none',
+              borderRadius: 0,
+              padding: '10px',
+              cursor: 'not-allowed',
+              minHeight: '44px'
+            }}
+          >
+            Sold Out
+          </button>
+        ) : (
+          <button 
+            onClick={handleAdd}
+            className={`w-full min-h-[44px] py-2.5 font-label text-[11px] tracking-[0.1em] uppercase transition-all flex items-center justify-center gap-2 ${
+              isAdded 
+                ? 'bg-green-500 text-white' 
+                : 'bg-rose-50 text-rose-500 border border-rose-200 hover:bg-rose-500 hover:text-white hover:border-rose-500'
+            }`}
+            style={{ borderRadius: 0 }}
+          >
+            {isAdded ? '✓ Added' : 'Add to Bag'}
+          </button>
+        )}
       </div>
     </div>
   );

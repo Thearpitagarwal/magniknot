@@ -44,6 +44,50 @@ export default function ProductsPage() {
     await fetchData();
   };
 
+  const cycleStock = async (product) => {
+    const cycle = {
+      in_stock:     'low_stock',
+      low_stock:    'out_of_stock',
+      out_of_stock: 'in_stock',
+    };
+    const nextStatus = cycle[product.stock_status] || 'low_stock';
+    
+    // Optimistic update
+    setProducts(products.map(p => p.id === product.id ? { ...p, stock_status: nextStatus } : p));
+    
+    try {
+      await updateProduct(product.id, { stock_status: nextStatus });
+    } catch (err) {
+      console.error(err);
+      // Revert on error
+      await fetchData();
+    }
+  };
+
+  const stockBadgeStyle = {
+    in_stock: {
+      background: '#FFF1F2',
+      color:      '#F43F5E',
+      border:     '1px solid #FECDD3',
+    },
+    low_stock: {
+      background: '#B76E79',
+      color:      '#FFFFFF',
+      border:     'none',
+    },
+    out_of_stock: {
+      background: '#E5E5E5',
+      color:      '#9A9A9A',
+      border:     'none',
+    },
+  };
+
+  const stockBadgeLabel = {
+    in_stock:     'In Stock',
+    low_stock:    'Low Stock',
+    out_of_stock: 'Sold Out',
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       await deleteProduct(id);
@@ -101,6 +145,7 @@ export default function ProductsPage() {
               <th className="px-5 py-3.5 font-medium">Category</th>
               <th className="px-5 py-3.5 font-medium">Price</th>
               <th className="px-5 py-3.5 font-medium">Status</th>
+              <th className="px-5 py-3.5 font-medium">Stock</th>
               <th className="px-5 py-3.5 font-medium text-right">Actions</th>
             </tr>
           </thead>
@@ -138,6 +183,25 @@ export default function ProductsPage() {
                         <span className="px-2.5 py-1 text-[9px] font-label tracking-[0.1em] uppercase bg-rose-50 text-rose-500 rounded-full">Featured</span>
                       )}
                     </div>
+                  </td>
+                  <td className="px-5 py-3.5">
+                    <button
+                      onClick={() => cycleStock(prod)}
+                      title="Click to change stock status"
+                      style={{
+                        ...stockBadgeStyle[prod.stock_status || 'in_stock'],
+                        fontFamily: "'Josefin Sans', sans-serif",
+                        fontSize: '9px',
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        padding: '3px 10px',
+                        borderRadius: '20px',
+                        cursor: 'pointer',
+                        transition: 'opacity 200ms ease',
+                      }}
+                    >
+                      {stockBadgeLabel[prod.stock_status || 'in_stock']}
+                    </button>
                   </td>
                   <td className="px-5 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-2">
