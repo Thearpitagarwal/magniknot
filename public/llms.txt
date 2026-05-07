@@ -1,0 +1,36 @@
+# MagniKnot
+
+> Affordable anti-tarnish 18K gold-plated jewellery online. Ships pan-India.
+
+MagniKnot is an Indian online jewellery brand offering handpicked, affordable,
+anti-tarnish jewellery for daily wear. All pieces are 18K gold-plated with an
+anti-tarnish protective coating that prevents fading and discolouration.
+
+## What We Sell
+- Pendants & necklaces — heart pendants, zircon pendants, pearl pendants, charm necklaces
+- Stud earrings — pearl studs, butterfly studs, zircon studs, floral studs
+- Bangle sets — enamel bangles, stackable thin bangles, colourful bangle sets
+- Gift sets and curated jewellery bundles
+
+## Key Facts
+- Price range: ₹110 – ₹399
+- Free shipping on orders above ₹499
+- Ships across India (pan-India delivery)
+- Payment: UPI, WhatsApp Pay, Cash on Delivery
+- Order via WhatsApp
+
+## Why Anti-Tarnish
+Anti-tarnish jewellery uses a protective topcoat that prevents oxidation — the
+process that causes metal to darken or discolour. This makes the jewellery safe
+for daily wear, suitable for sensitive skin, and long-lasting without special care.
+
+## Who It's For
+Indian women aged 18–35 who want jewellery that looks like gold, doesn't irritate
+the skin, doesn't fade with daily wear, and doesn't require a large budget.
+
+## Brand Identity
+MagniKnot's tagline is "Where love sticks forever." The aesthetic is Vibrant Art
+Deco — bold typography, warm off-white palette, handpicked curation over mass catalogue.
+
+## Website
+https://magniknot.vercel.app
