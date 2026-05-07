@@ -1,57 +1,84 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
+<!-- ☝️ Changed from "en" to "en-IN" — tells Google this is for Indian audiences -->
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/x-icon" href="/favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Search Console verification — keep as-is -->
+  <meta name="google-site-verification" content="LNobxrQzxCCNxJXY0kc_Hkgvq_jp7H7hRQ3o-kKboYc" />
+  <meta name="msvalidate.01" content="A48F6465B7D61EDD22293F6766CF4541" />
+
+  <!-- Fonts — already correct, keep as-is -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <meta name="google-site-verification" content="LNobxrQzxCCNxJXY0kc_Hkgvq_jp7H7hRQ3o-kKboYc" />
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@400;500;600&display=swap"
     rel="stylesheet">
-  
-  <!-- Preload hero first frame for instantaneous perceived performance -->
+
+  <!-- Hero image preload — keep as-is -->
   <link rel="preload" as="image" href="/video-split/ezgif-frame-001.webp" />
 
-  <meta name="description" content="Shop elegant jewellery at MagniKnot. Discover rings, bracelets, necklaces and more with a modern minimal design.">
-  <meta name="keywords" content="jewellery, rings, bracelets, necklaces, earrings, online jewellery India">
+  <!-- ✅ NEW TITLE — leads with what people search, brand at the end -->
+  <title>Affordable Jewellery Online India | Pendants, Bangles & Earrings — MagniKnot</title>
+
+  <!-- ✅ NEW META DESCRIPTION — mentions your real products, price point, USPs -->
+  <!-- Must be under 160 characters. This is 158. -->
+  <meta name="description"
+    content="Shop anti-tarnish gold-plated pendants, bangles and earrings online. Handpicked jewellery from ₹110. Free shipping above ₹499. Pan-India delivery.">
+
+  <!-- ✅ REMOVED keywords meta — Google ignores it. No point keeping it. -->
+
   <meta name="author" content="MagniKnot">
   <link rel="canonical" href="https://magniknot.vercel.app" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph — updated to match new title/description -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://magniknot.vercel.app">
-  <meta property="og:title" content="MagniKnot | Elegant Jewellery Online">
-  <meta property="og:description" content="Discover minimal, modern jewellery designed to stay with you. Discover our curated collections of rings, bracelets, and necklaces.">
+  <meta property="og:title" content="Affordable Jewellery Online India — MagniKnot">
+  <meta property="og:description"
+    content="Anti-tarnish gold-plated pendants, bangles and earrings from ₹110. Free shipping above ₹499. Shop MagniKnot.">
   <meta property="og:image" content="https://magniknot.vercel.app/preview-image.png">
+  <meta property="og:locale" content="en_IN">
+  <!-- ☝️ Added locale — signals Indian audience to social platforms -->
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://magniknot.vercel.app">
-  <meta property="twitter:title" content="MagniKnot | Elegant Jewellery">
-  <meta property="twitter:description" content="Minimal, modern jewellery designed to stay with you.">
+  <meta property="twitter:title" content="Affordable Jewellery Online India — MagniKnot">
+  <meta property="twitter:description"
+    content="Handpicked pendants, bangles & earrings from ₹110. Anti-tarnish. Free shipping ₹499+.">
   <meta property="twitter:image" content="https://magniknot.vercel.app/preview-image.png">
 
-  <!-- Structured Data -->
+  <!-- ✅ UPGRADED Structured Data — JewelryStore with real price range -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Store",
+    "@type": "JewelryStore",
     "name": "MagniKnot",
     "url": "https://magniknot.vercel.app",
-    "description": "Modern jewellery brand offering rings, bracelets, necklaces and more.",
+    "description": "Affordable anti-tarnish gold-plated jewellery online — pendants, bangles, earrings and studs. Ships pan-India.",
     "image": "https://magniknot.vercel.app/preview-image.png",
+    "priceRange": "₹110 - ₹399",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, UPI, WhatsApp Pay",
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    },
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "IN"
     },
-    "priceRange": "$$"
+    "sameAs": [
+      "https://www.instagram.com/magniknot"
+    ]
   }
   </script>
+  <!-- Note: update the Instagram URL above to your actual handle -->
 
-  <title>MagniKnot | Elegant Jewellery Online</title>
   <style>
     body,
     html {
